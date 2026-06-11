@@ -13,6 +13,7 @@ class BitcoinExchange
 {
 private:
 	std::map<std::string, double>	_data;
+	//data["2014-02-08"] = 680
 public:
 	BitcoinExchange();
 	// BitcoinExchange(const BitcoinExchange& other);
