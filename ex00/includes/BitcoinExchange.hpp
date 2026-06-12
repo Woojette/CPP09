@@ -2,6 +2,7 @@
 # define	BITCOINEXCHANGE_HPP
 
 # include <iostream>
+# include <fstream>
 # include <string>
 # include <exception>
 # include <map>
@@ -12,7 +13,7 @@
 class BitcoinExchange
 {
 private:
-	std::map<std::string, double>	_data;
+	std::map<std::string, float>	_data;
 	//data["2014-02-08"] = 680
 public:
 	BitcoinExchange();
@@ -20,7 +21,8 @@ public:
 	~BitcoinExchange();
 	// BitcoinExchange&	operator=(const BitcoinExchange& other);
 
-	void	loadDatabase();
+	void	csvDatabase();
+	void	inputProcess();
 };
 
 #endif

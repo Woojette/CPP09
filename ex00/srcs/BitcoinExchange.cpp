@@ -10,7 +10,12 @@ BitcoinExchange::~BitcoinExchange()
 	// std::cout << "BitcoinExchange destructor called" << std::endl;
 }
 
-void	BitcoinExchange::loadDatabase()
+void	BitcoinExchange::csvDatabase()
+{
+	
+}
+
+void	BitcoinExchange::inputProcess()
 {
 	
 }
