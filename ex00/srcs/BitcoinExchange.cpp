@@ -25,5 +25,25 @@ bool	BitcoinExchange::inputProcess(std::string filename)
 		return (false);
 	}
 
+	// check if the input file is empty or has invalid format
+	std::string	line;
+	if (!std::getline(file, line))
+	{
+		std::cerr << "Error: input file is empty." << std::endl;
+		return (false);
+	}
+
+	// check if the first line is "date | value"
+	if (line != "date | value")
+	{
+		std::cerr << "Error: invalid input file format." << std::endl;
+		return (false);
+	}
+
+	while (std::getline(file, line))
+	{
+
+	}
+
 	return (true);
 }
