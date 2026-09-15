@@ -15,7 +15,15 @@ void	BitcoinExchange::csvDatabase()
 	
 }
 
-void	BitcoinExchange::inputProcess()
+bool	BitcoinExchange::inputProcess(std::string filename)
 {
-	
+	// check if the input file is valid and open it
+	std::ifstream	file(filename.c_str());
+	if (!file.is_open())
+	{
+		std::cerr << "Error: invalid input file." << std::endl;
+		return (false);
+	}
+
+	return (true);
 }
