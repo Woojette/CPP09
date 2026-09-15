@@ -42,7 +42,15 @@ bool	BitcoinExchange::inputProcess(std::string filename)
 
 	while (std::getline(file, line))
 	{
+		// check the format of the line, it should be "YYYY-MM-DD | value"
+		std::string::size_type	pos = line.find(" | ");
 
+		// check if the position of the separator " | "
+		if (pos == std::string::npos || pos != 10)
+		{
+			std::cerr << "Error: invalid input file format." << std::endl;
+			continue ;
+		}
 	}
 
 	return (true);
