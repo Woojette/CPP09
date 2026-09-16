@@ -83,6 +83,29 @@ bool	BitcoinExchange::inputProcess(std::string filename)
 		}
 		if (!isNumeric)
 			continue ;
+
+		// extract YYYY, MM, DD as strings
+		std::string	yearString = line.substr(0, 4);
+		std::string	monthString = line.substr(5, 2);
+		std::string	dayString = line.substr(8, 2);
+
+		// convert YYYY to int
+		std::stringstream	yearStream(yearString);
+		int	yearInt;
+		yearStream >> yearInt;
+
+		// convert MM to int
+		std::stringstream	monthStream(monthString);
+		int	monthInt;
+		monthStream >> monthInt;
+
+		// check if the month is valid
+		if (monthInt < 1 || monthInt > 12)
+		{
+			std::cerr << "Error: bad input => " << line << std::endl;
+			continue ;
+		}
+
 	}
 
 	return (true);
