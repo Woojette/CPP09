@@ -45,14 +45,14 @@ bool	BitcoinExchange::inputProcess(std::string filename)
 		// check the format of the line, it should be "YYYY-MM-DD | value"
 		std::string::size_type	separatorPos = line.find(" | ");
 
-		// check if the position of the separator is " | "
+		// check if the separator " | " is at the correct position
 		if (separatorPos == std::string::npos || separatorPos != 10)
 		{
 			std::cerr << "Error: invalid input file format." << std::endl;
 			continue ;
 		}
 
-		// check if the position of the separator is "yyyy-mm"
+		// check if the first dash "yyyy-mm" is at the correct position
 		std::string::size_type	firstDashPos = line.find("-");
 		if (firstDashPos == std::string::npos || firstDashPos != 4)
 		{
@@ -60,7 +60,7 @@ bool	BitcoinExchange::inputProcess(std::string filename)
 			continue ;
 		}
 
-		// check if the position of the separator is "mm-dd"
+		// check if the second dash "mm-dd" is at the correct position
 		std::string::size_type	secondDashPos = line.find("-", 5);
 		if (secondDashPos == std::string::npos || secondDashPos != 7)
 		{
@@ -94,6 +94,13 @@ bool	BitcoinExchange::inputProcess(std::string filename)
 		int	yearInt;
 		yearStream >> yearInt;
 
+		// check if the year is valid
+		if (yearInt < 1)
+		{
+			std::cerr << "Error: bad input => " << line << std::endl;
+			continue ;
+		}
+
 		// convert MM to int
 		std::stringstream	monthStream(monthString);
 		int	monthInt;
@@ -106,6 +113,49 @@ bool	BitcoinExchange::inputProcess(std::string filename)
 			continue ;
 		}
 
+		std::stringstream	dayStream(dayString);
+		int	dayInt;
+		dayStream >> dayInt;
+
+		// check if the day is valid (not 00)
+		if (dayInt < 1)
+		{
+			std::cerr << "Error: bad input => " << line << std::endl;
+			continue ;
+		}
+
+		// check the months with 31 days
+		if ((monthInt == 1 || monthInt == 3 || monthInt == 5 || monthInt == 7 
+			|| monthInt == 8 || monthInt == 10 || monthInt == 12) && dayInt > 31)
+		{
+			std::cerr << "Error: bad input => " << line << std::endl;
+			continue ;
+		}
+
+		// check the months with 30 days
+		if ((monthInt == 4 || monthInt == 6 || monthInt == 9 || monthInt == 11) && dayInt > 30)
+		{
+			std::cerr << "Error: bad input => " << line << std::endl;
+			continue ;
+		}
+
+		// check february considering leap years
+		if (monthInt == 2)
+		{
+			if ((yearInt % 4 == 0 && yearInt % 100 != 0) || yearInt % 400 == 0)
+			{
+				if (dayInt > 29)
+				{
+					std::cerr << "Error: bad input => " << line << std::endl;
+					continue ;
+				}
+			}
+			else if (dayInt > 28)
+			{
+				std::cerr << "Error: bad input => " << line << std::endl;
+				continue ;
+			}
+		}
 	}
 
 	return (true);
