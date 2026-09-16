@@ -22,7 +22,7 @@ public:
 	// BitcoinExchange&	operator=(const BitcoinExchange& other);
 
 	void	csvDatabase();
-	void	inputProcess();
+	bool	inputProcess(std::string filename);
 };
 
 #endif
