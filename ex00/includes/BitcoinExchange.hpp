@@ -14,7 +14,7 @@
 class BitcoinExchange
 {
 private:
-	std::map<std::string, float>	_data;
+	std::map<std::string, double>	_data;
 	//data["2014-02-08"] = 680
 public:
 	BitcoinExchange();
@@ -22,7 +22,7 @@ public:
 	~BitcoinExchange();
 	// BitcoinExchange&	operator=(const BitcoinExchange& other);
 
-	void	csvDatabase();
+	// void	csvDatabase();
 	bool	inputProcess(std::string filename);
 };
 

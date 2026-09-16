@@ -1,6 +1,6 @@
 #include	"BitcoinExchange.hpp"
 
-BitcoinExchange::BitcoinExchange() : _data("0000-00-00", 0)
+BitcoinExchange::BitcoinExchange()
 {
 	// std::cout << "BitcoinExchange default constructor called" << std::endl;
 }
@@ -10,10 +10,10 @@ BitcoinExchange::~BitcoinExchange()
 	// std::cout << "BitcoinExchange destructor called" << std::endl;
 }
 
-void	BitcoinExchange::csvDatabase()
-{
+// void	BitcoinExchange::csvDatabase()
+// {
 	
-}
+// }
 
 bool	BitcoinExchange::inputProcess(std::string filename)
 {
@@ -155,6 +155,39 @@ bool	BitcoinExchange::inputProcess(std::string filename)
 				std::cerr << "Error: bad input => " << line << std::endl;
 				continue ;
 			}
+		}
+
+		// extract the value as a string
+		std::string	valueString = line.substr(13);
+
+		// convert the value to double
+		std::stringstream	valueStream(valueString);
+		double	valueDouble;
+
+		// check if the value can be converted to double
+		if (!(valueStream >> valueDouble))
+		{
+			std::cerr << "Error: bad input => " << line << std::endl;
+			continue ;
+		}
+
+		// check if there are remaining characters after the value
+		if (!valueStream.eof())
+		{
+			std::cerr << "Error: bad input => " << line << std::endl;
+			continue ;
+		}
+
+		// check the value is within the allowed range (0 ~ 1000)
+		if (valueDouble < 0)
+		{
+			std::cerr << "Error: not a positive number." << std::endl;
+			continue ;
+		}
+		else if (valueDouble > 1000)
+		{
+			std::cerr << "Error: too large a number." << std::endl;
+			continue ;
 		}
 	}
 

@@ -7,9 +7,11 @@ int	main(int ac, char **av)
 		std::cerr << "Error: invalid number of arguments." << std::endl;
 		return (1);
 	}
-	if (!BitcoinExchange::checkInputFile(av[1]))
+
+	BitcoinExchange	btc;
+
+	if (!btc.inputProcess(av[1]))
 	{
-		
 		return (1);
 	}
 
