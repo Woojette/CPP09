@@ -269,7 +269,10 @@ bool	BitcoinExchange::inputProcess(std::string filename)
 		}
 		// calculate the value using the exchange rate
 		double	result = valueDouble * it->second;
-	}
 
+		// print the result
+		std::cout << dateString << " => " << valueDouble << " = " << result << std::endl;
+
+	}
 	return (true);
 }
