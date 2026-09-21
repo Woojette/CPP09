@@ -10,11 +10,6 @@ BitcoinExchange::~BitcoinExchange()
 	// std::cout << "BitcoinExchange destructor called" << std::endl;
 }
 
-// void	BitcoinExchange::csvDatabase()
-// {
-	
-// }
-
 bool	BitcoinExchange::inputProcess(std::string filename)
 {
 	// check if the input file is valid and open it
@@ -189,6 +184,76 @@ bool	BitcoinExchange::inputProcess(std::string filename)
 			std::cerr << "Error: too large a number." << std::endl;
 			continue ;
 		}
+	}
+
+	return (true);
+}
+
+bool	BitcoinExchange::csvDatabase(std::string filename)
+{
+	// check if the database file is valid and open it
+	std::ifstream	file(filename.c_str());
+	if (!file.is_open())
+	{
+		std::cerr << "Error: invalid database file." << std::endl;
+		return (false);
+	}
+
+	// check if the database file is empty or has invalid format
+	std::string	line;
+	if (!std::getline(file, line))
+	{
+		std::cerr << "Error: database file is empty." << std::endl;
+		return (false);
+	}
+
+	// check if the first line is "date,exchange_rate"
+	if (line != "date,exchange_rate")
+	{
+		std::cerr << "Error: invalid database file format." << std::endl;
+		return (false);
+	}
+
+	while (std::getline(file, line))
+	{
+		// check the format of the line, it should be "YYYY-MM-DD,value"
+		std::string::size_type	separatorPos = line.find(",");
+		if (separatorPos == std::string::npos || separatorPos != 10)
+		{
+			std::cerr << "Error: invalid database file format." << std::endl;
+			continue ;
+		}
+
+		// extract YYYY-MM-DD and rate as strings
+		std::string	dateString = line.substr(0, 10);
+		std::string	rateString = line.substr(11);
+
+		// convert rate to double
+		std::stringstream	rateStream(rateString);
+		double	rateDouble;
+		if (!(rateStream >> rateDouble))
+		{
+			std::cerr << "Error: invalid database file format." << std::endl;
+			continue ;
+		}
+
+		// check if there are remaining characters after the rate
+		if (!rateStream.eof())
+		{
+			std::cerr << "Error: invalid database file format." << std::endl;
+			continue ;
+		}
+
+		// check if the rate is negative
+		if (rateDouble < 0)
+		{
+			std::cerr << "Error: database invalid" << std::endl;
+			continue ;
+		}
+
+		// store the date and exchange rate in the map
+		_data[dateString] = rateDouble;
+
 	}
 
 	return (true);
