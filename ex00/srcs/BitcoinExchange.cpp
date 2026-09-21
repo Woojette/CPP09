@@ -262,7 +262,7 @@ bool	BitcoinExchange::inputProcess(std::string filename)
 			it = _data.lower_bound(dateString);
 			if (_data.begin() == it)
 			{
-				std::cerr << "Error: date invalid" << std::endl;
+				std::cerr << "Error: bad input => " << line << std::endl;
 				continue ;
 			}
 			--it;

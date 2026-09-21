@@ -17,8 +17,5 @@ int	main(int ac, char **av)
 	{
 		return (1);
 	}
-	// (void)av;
-	// btc.csvDatabase("data.csv");
-
 	return (0);
 }
