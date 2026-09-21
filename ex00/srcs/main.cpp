@@ -10,10 +10,15 @@ int	main(int ac, char **av)
 
 	BitcoinExchange	btc;
 
+	if (!btc.csvDatabase("data.csv"))
+		return (1);
+
 	if (!btc.inputProcess(av[1]))
 	{
 		return (1);
 	}
+	// (void)av;
+	// btc.csvDatabase("data.csv");
 
 	return (0);
 }
