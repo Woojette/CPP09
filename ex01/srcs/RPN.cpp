@@ -33,7 +33,7 @@ bool	RPN::calculateRPN(std::string av)
 			return (false);
 		}
 
-		// check if the token is digit between 0 and 9 or a valid operator (+, -, *, /)
+		// check if the token is a digit between 0 and 9 or a valid operator (+, -, *, /)
 		if ((token[0] < '0' || token[0] > '9') && (token[0] != '+' && token[0] != '-' && token[0] != '*' && token[0] != '/'))
 		{
 			std::cerr << "Error: invalid argument" << std::endl;
@@ -49,7 +49,7 @@ bool	RPN::calculateRPN(std::string av)
 
 		if (token[0] == '+' || token[0] == '-' || token[0] == '*' || token[0] == '/')
 		{
-			// check if there are at least 2 operands to calculate
+			// check if there are at least 2 operands for the operation
 			if (this->_stack.size() < 2)
 			{
 				std::cerr << "Error: not enough operands" << std::endl;
@@ -62,6 +62,7 @@ bool	RPN::calculateRPN(std::string av)
 			int	firstOperand = this->_stack.top();
 			this->_stack.pop();
 
+			// calculate the result of the operation
 			int	resultOperand;
 
 			if (token[0] == '+')
@@ -78,8 +79,20 @@ bool	RPN::calculateRPN(std::string av)
 				return (false);
 			}
 
+			// push the result onto the stack
 			this->_stack.push(resultOperand);
 		}
+
 	}
+	// check if exactly one result remains in the stack
+	if (this->_stack.size() != 1)
+	{
+		std::cerr << "Error: invalid expression" << std::endl;
+		return (false);
+	}
+
+	// display the result
+	std::cout << this->_stack.top() << std::endl;
+
 	return (true);
 }
