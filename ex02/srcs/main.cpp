@@ -12,6 +12,9 @@ int	main (int ac, char** av)
 	// store the input integers in a vector
 	std::vector<int>	vectorInputs;
 
+	// store the input integers in a deque
+	std::deque<int>	dequeInputs;
+
 	// iterate through each argument
 	for (int i = 1; i < ac; i++)
 	{
@@ -48,15 +51,26 @@ int	main (int ac, char** av)
 		// add the validated integer to the vector
 		vectorInputs.push_back(number);
 
+		// add the validated integer to the deque
+		dequeInputs.push_back(number);
 	}
 
-	// display the input sequence before sorting
+	// display the input sequence before sorting (vector)
 	std::cout << "Before: ";
 	for (size_t i = 0; i < vectorInputs.size(); i++)
 	{
 		std::cout << vectorInputs[i] << " ";
 	}
 	std::cout << std::endl;
+
+
+	// // display the input sequence before sorting (deque)
+	// std::cout << "Before (deque): ";
+	// for (size_t i = 0; i < dequeInputs.size(); i++)
+	// {
+	// 	std::cout << dequeInputs[i] << " ";
+	// }
+	// std::cout << std::endl;
 
 	return (0);
 }
