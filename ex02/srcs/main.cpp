@@ -1,31 +1,47 @@
-NAME = PmergeMe
+#include "PmergeMe.hpp"
 
-CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -Iincludes
+int	main (int ac, char** av)
+{
+	// check the number of arguments
+	if (ac < 2)
+	{
+		std::cerr << "Error: not enough argument" << std::endl;
+		return (1);
+	}
 
-SRCS =	srcs/main.cpp \
-		srcs/PmergeMe.cpp
+	// iterate through each argument
+	for (int i = 1; i < ac; i++)
+	{
+		// check each character of each argument
+		for (int k = 0; av[i][k]; k++)
+		{
+			// reject non-digit characters
+			if (av[i][k] < '0' || av[i][k] > '9')
+			{
+				std::cerr << "Error: " << av[i] << std::endl;
+				return (1);
+			}
+		}
 
-OBJDIR = objs
-OBJS = $(patsubst srcs/%.cpp,$(OBJDIR)/%.o,$(SRCS))
+		// convert the string to an integer
+		std::stringstream	ss(av[i]);
+		int	number;
+		ss >> number;
+	
+		// check for conversion errors (ex. "", '') or integer overflow (int min/max)
+		if (ss.fail())
+		{
+			std::cerr << "Error: " << av[i] << std::endl;
+			return (1);
+		}
 
-all: $(NAME)
-
-$(NAME): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
-
-$(OBJDIR)/%.o: srcs/%.cpp | $(OBJDIR)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(OBJDIR):
-	mkdir -p $(OBJDIR)
-
-clean:
-	rm -f $(OBJS)
-
-fclean: clean
-	rm -f $(NAME)
-
-re: fclean all
-
-.PHONY: all clean fclean re
+		// reject 0
+		if (number == 0)
+		{
+			std::cerr << "Error: " << av[i] << std::endl;
+			return (1);
+		}
+		std::cout << number << std::endl;
+	}
+	return (0);
+}
