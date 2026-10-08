@@ -9,6 +9,9 @@ int	main (int ac, char** av)
 		return (1);
 	}
 
+	// store the input integers in a vector
+	std::vector<int>	vectorInputs;
+
 	// iterate through each argument
 	for (int i = 1; i < ac; i++)
 	{
@@ -41,7 +44,19 @@ int	main (int ac, char** av)
 			std::cerr << "Error: " << av[i] << std::endl;
 			return (1);
 		}
-		std::cout << number << std::endl;
+
+		// add the validated integer to the vector
+		vectorInputs.push_back(number);
+
 	}
+
+	// display the input sequence before sorting
+	std::cout << "Before: ";
+	for (size_t i = 0; i < vectorInputs.size(); i++)
+	{
+		std::cout << vectorInputs[i] << " ";
+	}
+	std::cout << std::endl;
+
 	return (0);
 }
