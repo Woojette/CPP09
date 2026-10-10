@@ -17,7 +17,7 @@ int	main (int ac, char** av)
 
 	// display the input sequence before sorting (vector)
 	sorter.printBefore();
-
+	sorter.sortFordJohnson();
 
 	return (0);
 }
