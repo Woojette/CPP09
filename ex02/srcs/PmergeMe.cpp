@@ -82,9 +82,50 @@ void	PmergeMe::sortFordJohnson()
 
 	// 2. save the unpaired element
 	int	straggler = 0;
-
 	if (_vectorInputs.size() % 2 != 0)
 		straggler = _vectorInputs.back();
+	(void)straggler;
 
+	// for (size_t i = 0; i + 1 < pairs.size(); i += 2)
+	// {
+	// 	if (pairs[i].second > pairs[i+1].second)
+	// 	{
+	// 		std::pair<int, int> temp;
+	// 		temp = pairs[i];
+	// 		pairs[i] = pairs[i+1];
+	// 		pairs[i+1] = temp;
+	// 	}
+	// }
+
+
+	size_t	blockSize = 2;
+
+	// compare 2 adjacent blocks, then move to the next 2 blocks
+	for (size_t start = 0; start + 2 * blockSize <= pairs.size(); start += 2 * blockSize)
+	{
+		int	firstMax = pairs[start + (blockSize - 1)].second;
+		int	secondMax = pairs[start + (2 * blockSize - 1)].second;
+
+		if (firstMax > secondMax)
+		{
+			// swap 2 adjacent blocks, one pair at a time
+			for (size_t j = 0; j < blockSize; j++)
+			{
+				std::pair<int, int>	temp = pairs[start + j];
+				pairs[start + j] = pairs[start + blockSize + j];
+				pairs[start + blockSize + j] = temp;
+			}
+		}
+	}
+
+
+
+	std::cout << "Pairs after block comparison: ";
+	for (size_t i = 0; i < pairs.size(); i++)
+	{
+			std::cout << "(" << pairs[i].first
+								<< "," << pairs[i].second << ") ";
+	}
+	std::cout << std::endl;
 
 }
