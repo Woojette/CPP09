@@ -48,6 +48,28 @@ bool	PmergeMe::parseInput(int ac, char **av)
   return (true);
 }
 
+
+void	PmergeMe::sortPairs(std::vector<std::pair<int, int> >& pairs)
+{
+	if (pairs.size() < 2)
+		return ;
+
+	// if there are exactly 2 pairs, swap them if their second values are in the wrong order  ex. (11,24) (2,12) -> (2,12) (11,24)
+	if (pairs.size() == 2 && pairs[0].second > pairs[1].second)
+		std::swap(pairs[0], pairs[1]);
+
+	// // store grouped pairs for recursive sorting
+	// std::vector<std::pair<int, int> >	groupedPairs;
+
+	// split pairs into 2 groups
+	size_t	middle = pairs.size() / 2;
+
+	std::vector<std::pair<int, int> >	left(pairs.begin(), pairs.begin() + middle);
+	std::vector<std::pair<int, int> >	right(pairs.begin() + middle, pairs.end());
+	
+}
+
+
 void	PmergeMe::printBefore() const
 {
 	std::cout << "Before: ";
@@ -61,7 +83,7 @@ void	PmergeMe::printBefore() const
 void	PmergeMe::sortFordJohnson()
 {
 	// base case: zero or one element is already sorted
-	if (_vectorInputs.size() <= 1)
+	if (_vectorInputs.size() < 2)
 		return ;
 
 	// 1. create ordered pairs
@@ -86,37 +108,34 @@ void	PmergeMe::sortFordJohnson()
 		straggler = _vectorInputs.back();
 	(void)straggler;
 
-	// for (size_t i = 0; i + 1 < pairs.size(); i += 2)
+
+	sortPairs(pairs);
+
+
+	// size_t	blockSize = 1;
+
+	// repeat while there are enough pairs to compare 2 blocks
+	// while (2 * blockSize <= pairs.size())
 	// {
-	// 	if (pairs[i].second > pairs[i+1].second)
-	// 	{
-	// 		std::pair<int, int> temp;
-	// 		temp = pairs[i];
-	// 		pairs[i] = pairs[i+1];
-	// 		pairs[i+1] = temp;
-	// 	}
+		// compare 2 adjacent blocks, then move to the next 2 blocks
+		// for (size_t start = 0; start + 2 * blockSize <= pairs.size(); start += 2 * blockSize)
+		// {
+		// 	int	firstMax = pairs[start + (blockSize - 1)].second;
+		// 	int	secondMax = pairs[start + (2 * blockSize - 1)].second;
+
+		// 	if (firstMax > secondMax)
+		// 	{
+		// 		// swap 2 adjacent blocks, one pair at a time
+		// 		for (size_t j = 0; j < blockSize; j++)
+		// 		{
+		// 			std::pair<int, int>	temp = pairs[start + j];
+		// 			pairs[start + j] = pairs[start + blockSize + j];
+		// 			pairs[start + blockSize + j] = temp;
+		// 		}
+		// 	}
+		// }
+		// blockSize *= 2;
 	// }
-
-
-	size_t	blockSize = 2;
-
-	// compare 2 adjacent blocks, then move to the next 2 blocks
-	for (size_t start = 0; start + 2 * blockSize <= pairs.size(); start += 2 * blockSize)
-	{
-		int	firstMax = pairs[start + (blockSize - 1)].second;
-		int	secondMax = pairs[start + (2 * blockSize - 1)].second;
-
-		if (firstMax > secondMax)
-		{
-			// swap 2 adjacent blocks, one pair at a time
-			for (size_t j = 0; j < blockSize; j++)
-			{
-				std::pair<int, int>	temp = pairs[start + j];
-				pairs[start + j] = pairs[start + blockSize + j];
-				pairs[start + blockSize + j] = temp;
-			}
-		}
-	}
 
 
 
