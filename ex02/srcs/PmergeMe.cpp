@@ -48,28 +48,6 @@ bool	PmergeMe::parseInput(int ac, char **av)
   return (true);
 }
 
-
-void	PmergeMe::sortPairs(std::vector<std::pair<int, int> >& pairs)
-{
-	if (pairs.size() < 2)
-		return ;
-
-	// if there are exactly 2 pairs, swap them if their second values are in the wrong order  ex. (11,24) (2,12) -> (2,12) (11,24)
-	if (pairs.size() == 2 && pairs[0].second > pairs[1].second)
-		std::swap(pairs[0], pairs[1]);
-
-	// // store grouped pairs for recursive sorting
-	// std::vector<std::pair<int, int> >	groupedPairs;
-
-	// split pairs into 2 groups
-	size_t	middle = pairs.size() / 2;
-
-	std::vector<std::pair<int, int> >	left(pairs.begin(), pairs.begin() + middle);
-	std::vector<std::pair<int, int> >	right(pairs.begin() + middle, pairs.end());
-	
-}
-
-
 void	PmergeMe::printBefore() const
 {
 	std::cout << "Before: ";
@@ -80,13 +58,36 @@ void	PmergeMe::printBefore() const
 	std::cout << std::endl; 
 }
 
+
+
+// sort pairs in ascending order by their second values
+bool	PmergeMe::sortPairsBySecond(std::vector<std::pair<int, int> >& pairs)
+{
+	if (pairs.size() < 2)
+		return (true);
+
+	// if there are exactly 2 pairs, swap them if their second values are in the wrong order  ex. (11,24) (2,12) -> (2,12) (11,24)
+	if (pairs.size() == 2 && pairs[0].second > pairs[1].second)
+	{
+		std::swap(pairs[0], pairs[1]);
+		return (true);
+	}
+
+	// split pairs into 2 groups
+	// size_t	middle = pairs.size() / 2;
+
+	// std::vector<std::pair<int, int> >	left(pairs.begin(), pairs.begin() + middle);
+	// std::vector<std::pair<int, int> >	right(pairs.begin() + middle, pairs.end());
+	
+}
+
 void	PmergeMe::sortFordJohnson()
 {
 	// base case: zero or one element is already sorted
 	if (_vectorInputs.size() < 2)
 		return ;
 
-	// 1. create ordered pairs
+	// 1-1. create ordered pairs
 	std::vector<std::pair<int, int> >	pairs;
 	for (size_t i = 0; i + 1 < _vectorInputs.size(); i += 2)
 	{
@@ -102,14 +103,28 @@ void	PmergeMe::sortFordJohnson()
 		pairs.push_back(std::pair<int, int>(first, second));
 	}
 
-	// 2. save the unpaired element
+	// 1-2. save the unpaired element
 	int	straggler = 0;
 	if (_vectorInputs.size() % 2 != 0)
 		straggler = _vectorInputs.back();
 	(void)straggler;
 
+	
 
-	sortPairs(pairs);
+
+// [1 6] [5 8] [7 4] [2 0] -> 1 5 4 0
+// [6 8] [7 2] -> 6 2
+// [8 7] -> 7
+// 8 jacobsthal = insertion binaire
+
+// 1. pairs
+// 2. garder des grands
+
+// 3. trier des grands
+// 4. inserer les petits dans 3
+
+
+	sortPairsBySecond(pairs);
 
 
 	// size_t	blockSize = 1;
@@ -117,24 +132,24 @@ void	PmergeMe::sortFordJohnson()
 	// repeat while there are enough pairs to compare 2 blocks
 	// while (2 * blockSize <= pairs.size())
 	// {
-		// compare 2 adjacent blocks, then move to the next 2 blocks
-		// for (size_t start = 0; start + 2 * blockSize <= pairs.size(); start += 2 * blockSize)
-		// {
-		// 	int	firstMax = pairs[start + (blockSize - 1)].second;
-		// 	int	secondMax = pairs[start + (2 * blockSize - 1)].second;
+	// 	compare 2 adjacent blocks, then move to the next 2 blocks
+	// 	for (size_t start = 0; start + 2 * blockSize <= pairs.size(); start += 2 * blockSize)
+	// 	{
+	// 		int	firstMax = pairs[start + (blockSize - 1)].second;
+	// 		int	secondMax = pairs[start + (2 * blockSize - 1)].second;
 
-		// 	if (firstMax > secondMax)
-		// 	{
-		// 		// swap 2 adjacent blocks, one pair at a time
-		// 		for (size_t j = 0; j < blockSize; j++)
-		// 		{
-		// 			std::pair<int, int>	temp = pairs[start + j];
-		// 			pairs[start + j] = pairs[start + blockSize + j];
-		// 			pairs[start + blockSize + j] = temp;
-		// 		}
-		// 	}
-		// }
-		// blockSize *= 2;
+	// 		if (firstMax > secondMax)
+	// 		{
+	// 			// swap 2 adjacent blocks, one pair at a time
+	// 			for (size_t j = 0; j < blockSize; j++)
+	// 			{
+	// 				std::pair<int, int>	temp = pairs[start + j];
+	// 				pairs[start + j] = pairs[start + blockSize + j];
+	// 				pairs[start + blockSize + j] = temp;
+	// 			}
+	// 		}
+	// 	}
+	// 	blockSize *= 2;
 	// }
 
 

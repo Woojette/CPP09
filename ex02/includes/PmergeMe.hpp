@@ -16,7 +16,7 @@ class PmergeMe
 		std::vector<int>	_vectorInputs; // store the input integers in a vector
 		std::deque<int>	_dequeInputs; // store the input integers in a deque
 
-		void	sortPairs(std::vector<std::pair<int, int> >& pairs); // sort the pairs in the original vector using a reference &
+		bool	sortPairsBySecond(std::vector<std::pair<int, int> >& pairs); // sort the pairs in the original vector using a reference &
 
   public:
 		PmergeMe();
