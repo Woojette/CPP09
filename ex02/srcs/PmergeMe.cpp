@@ -60,25 +60,39 @@ void	PmergeMe::printBefore() const
 
 
 
-// sort pairs in ascending order by their second values
-bool	PmergeMe::sortPairsBySecond(std::vector<std::pair<int, int> >& pairs)
+void	PmergeMe::sortValues(std::vector<int> >& values)
 {
-	if (pairs.size() < 2)
-		return (true);
+	if (values.size() < 2)
+		return ;
 
-	// if there are exactly 2 pairs, swap them if their second values are in the wrong order  ex. (11,24) (2,12) -> (2,12) (11,24)
-	if (pairs.size() == 2 && pairs[0].second > pairs[1].second)
+	std::vector<std::pair<int, int> >	pairs;
+	std::vector<int> secondValues;
+
+	for (size_t i = 0; i + 1 < values.size(); i += 2)
 	{
-		std::swap(pairs[0], pairs[1]);
-		return (true);
+		int	first = values[i];
+		int	second = values[i+1];
+	
+		if (first > second)
+			std::swap(first, second);
+		pairs.push_back(std::pair<int, int>(first, second));
+		secondValues.push_back(second);
 	}
 
-	// split pairs into 2 groups
-	// size_t	middle = pairs.size() / 2;
+	sortValues(secondValues);
 
-	// std::vector<std::pair<int, int> >	left(pairs.begin(), pairs.begin() + middle);
-	// std::vector<std::pair<int, int> >	right(pairs.begin() + middle, pairs.end());
-	
+	std::vector<int>	sortedValues;
+
+	for (size_t i = 0; i < pairs.size(); i++)
+	{
+		if (pairs[i].second == secondValues[0])
+		{
+			sortedValues.push_back(pairs[i].first);
+			sortedValues.push_back(pairs[i].second);
+			break ;
+		}
+	}
+
 }
 
 void	PmergeMe::sortFordJohnson()
@@ -108,6 +122,16 @@ void	PmergeMe::sortFordJohnson()
 	if (_vectorInputs.size() % 2 != 0)
 		straggler = _vectorInputs.back();
 	(void)straggler;
+
+
+	std::vector<int>	firstValues;
+	std::vector<int>	secondValues;
+
+	for (size_t i = 0; i < pairs.size(); i += 1)
+	{
+		firstValues.push_back(pairs[i].first);
+		secondValues.push_back(pairs[i].second);
+	}
 
 	
 
