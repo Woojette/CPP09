@@ -93,6 +93,8 @@ void	PmergeMe::sortValues(std::vector<int> >& values)
 		}
 	}
 
+	for (size_t i = 1; i < secondValues.size(); i++)
+		sortedValues.push_back(secondValues[i]);
 }
 
 void	PmergeMe::sortFordJohnson()
